@@ -361,7 +361,11 @@ class RedisHashsetCollection(RedisCollection):
                         rec[field.name] = self._unget_redis_key(rec[field.name])
                     case VectorStoreRecordVectorField():
                         dtype = TYPE_MAPPER_VECTOR[field.property_type or "default"]
-                        rec[field.name] = buffer_to_array(rec[field.name], dtype)
+                        vector_data = rec[field.name]
+                        # Convert string to bytes if needed
+                        if isinstance(vector_data, str):
+                            vector_data = vector_data.encode()
+                        rec[field.name] = buffer_to_array(vector_data, dtype)
             results.append(rec)
         return results
 
