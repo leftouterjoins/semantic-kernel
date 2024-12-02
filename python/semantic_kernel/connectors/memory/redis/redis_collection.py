@@ -361,7 +361,15 @@ class RedisHashsetCollection(RedisCollection):
                         rec[field.name] = self._unget_redis_key(rec[field.name])
                     case VectorStoreRecordVectorField():
                         with open('/app/exports/log', 'a') as f:
+                            f.write(str(field))
+                            f.write('\n')
                             f.write(field.name)
+                        with open('/app/exports/log', 'a') as f:
+                            f.write('\n')
+                            f.write(str(rec[field.name]))
+                            f.write('\n')
+                            f.write(str(type(rec[field.name])))
+                            f.write('\n')
                         dtype = TYPE_MAPPER_VECTOR[field.property_type or "default"]
                         rec[field.name] = buffer_to_array(rec[field.name], dtype)
             results.append(rec)
