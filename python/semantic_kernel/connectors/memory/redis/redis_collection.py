@@ -361,8 +361,14 @@ class RedisHashsetCollection(RedisCollection):
                         rec[field.name] = self._unget_redis_key(rec[field.name])
                     case VectorStoreRecordVectorField():
                         dtype = TYPE_MAPPER_VECTOR[field.property_type or "default"]
-                        
                         field_buffer = bytes(rec[field.name], encoding='utf-8')
+                        
+                        # Pad buffer for FLOAT32 to ensure it's a multiple of 4 bytes
+                        if dtype.lower() == 'float32':
+                            padding_size = (4 - (len(field_buffer) % 4)) % 4
+                            if padding_size > 0:
+                                field_buffer += b'\0' * padding_size
+                        
                         rec[field.name] = buffer_to_array(field_buffer, dtype)
             results.append(rec)
         return results
