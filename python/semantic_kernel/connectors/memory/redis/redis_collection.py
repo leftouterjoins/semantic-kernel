@@ -362,7 +362,7 @@ class RedisHashsetCollection(RedisCollection):
                     case VectorStoreRecordVectorField():
                         dtype = TYPE_MAPPER_VECTOR[field.property_type or "default"]
                         
-                        field_buffer = bytes(rec[field.name])
+                        field_buffer = bytes(rec[field.name], encoding='utf-8')
                         rec[field.name] = buffer_to_array(field_buffer, dtype)
             results.append(rec)
         return results
