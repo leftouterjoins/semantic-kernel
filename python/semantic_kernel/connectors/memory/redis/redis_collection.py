@@ -364,7 +364,6 @@ class RedisHashsetCollection(RedisCollection):
                             f.write(str(field))
                             f.write('\n')
                             f.write(field.name)
-                        with open('/app/exports/log', 'a') as f:
                             f.write('\n')
                             f.write(str(rec[field.name]))
                             f.write('\n')
