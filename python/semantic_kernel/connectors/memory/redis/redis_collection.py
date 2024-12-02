@@ -376,7 +376,7 @@ class RedisHashsetCollection(RedisCollection):
             match field:
                 case VectorStoreRecordVectorField():
                     if include_vectors:
-                        query.return_field(field.name, decode_field=False)
+                        query.return_field(field.name)
                 case _:
                     query.return_field(field.name)
         return query
